@@ -10,6 +10,9 @@
 
 #include "ansi/ansi_color.hpp"
 
+using namespace ansi;
+
 int main(int argc, char** argv) {
-  std::cout << ansi::color::KRed << "Hello!" << ansi::color::KResetAll << std::endl;
+  std::cout << set_color(Color::Red, Color::Blue) << "a" << set_color(Color::Default) << std::endl;
+  return 0;
 }

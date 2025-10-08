@@ -4,42 +4,88 @@
 //!   See the LICENSE file in the project root for full license information.
 //!
 //! Simple header file containing definitions for a easily usage of ANSI color codes
-//! References used: 
-//!   - https://notes.burke.libbey.me/ansi-escape-codes/
-//!   - https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+//! References used
 //!  
-//! Control sequence: 0x1B + '[' + [zero or more number] + [function letter]
+//! Control sequence: 0x1B + '[' + [zero or more number]+ [;]? + [function letter]
 
 #pragma once
 
 #include <string_view>
+#include <string>
 
-namespace ansi::color {
+/// Declaration
 
-constexpr std::string_view KResetAll      = "\x1b[0m";
+namespace ansi {
 
-constexpr std::string_view KBlack         = "\x1b[0;30m";
-constexpr std::string_view KBrightBlack   = "\x1b[1;30m";
+enum class Color {
+  Default,
+  Black,
+  Red,
+  Green,
+  Yellow,
+  Blue,
+  Magenta,
+  Cyan,
+  White
+};
 
-constexpr std::string_view KRed           = "\x1b[0;31m";
-constexpr std::string_view KBrightRed     = "\x1b[1;31m";
+inline std::string set_color(const ansi::Color, const ansi::Color = ansi::Color::Default);
 
-constexpr std::string_view KGreen         = "\x1b[0;32m";
-constexpr std::string_view KBrightGreen   = "\x1b[0;32m";
+}
 
-constexpr std::string_view KYellow        = "\x1b[0;33m";
-constexpr std::string_view KBrightYellow  = "\x1b[1;33m";
+namespace ansi::utils {
 
-constexpr std::string_view KBlue          = "\x1b[0;34m";
-constexpr std::string_view KBrightBlue    = "\x1b[0;34m";
+constexpr std::string_view KAnsiCodeEscape = "\x1b[";
+constexpr std::string_view KAnsiColorReset = "\x1b[39;49m";
 
-constexpr std::string_view KMagenta       = "\x1b[0;35m";
-constexpr std::string_view KBrightMagenta = "\x1b[1;35m";
+constexpr inline std::string_view translate_color(const ansi::Color, const bool);
 
-constexpr std::string_view KCyan          = "\x1b[0;36m";
-constexpr std::string_view KBrightCyan    = "\x1b[1;36m";
+}
 
-constexpr std::string_view KWhite         = "\x1b[0;37m";
-constexpr std::string_view KBrightWhite   = "\x1b[0;37m";
+/// Implementation
 
+/// @brief Constexpr function that returns the ANSI code of each color.
+/// @param color 
+/// @param background 
+/// @return std::string_view
+constexpr std::string_view ansi::utils::translate_color(const ansi::Color color, const bool background) {
+  switch (color) {
+    case Color::Black:
+      return (background) ? std::string_view("40") : std::string_view("30");
+    case Color::Red:
+      return (background) ? std::string_view("41") : std::string_view("31");
+    case Color::Green:
+      return (background) ? std::string_view("42") : std::string_view("32");
+    case Color::Yellow:
+      return (background) ? std::string_view("43") : std::string_view("33");
+    case Color::Blue:
+      return (background) ? std::string_view("44") : std::string_view("34");
+    case Color::Magenta:
+      return (background) ? std::string_view("45") : std::string_view("35");
+    case Color::Cyan:
+      return (background) ? std::string_view("46") : std::string_view("36");
+    case Color::White:
+      return (background) ? std::string_view("47") : std::string_view("37");
+    default:
+      return (background) ? std::string_view("49") : std::string_view("39");
+  }
+}
+
+/// @brief Return an ANSI codescape setting the foreground color and background.
+///   If background color is not set, set the default terminal color.
+/// @param foreground 
+/// @param background 
+/// @return 
+std::string ansi::set_color(const ansi::Color foreground, const ansi::Color background) {
+  if (foreground == Color::Default && background == Color::Default) {
+    return std::string(utils::KAnsiColorReset);
+  }
+  std::string result;
+  result.reserve(16);
+  result.append(utils::KAnsiCodeEscape)
+    .append(utils::translate_color(foreground, false))
+    .append(";")
+    .append(utils::translate_color(background, true))
+    .append("m");
+  return result;
 }
