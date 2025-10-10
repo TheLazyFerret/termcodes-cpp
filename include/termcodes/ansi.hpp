@@ -143,9 +143,9 @@ std::string ansi::graphic::set_color(const Color foreground, const Color backgro
   // Reserve memory to reduce the number of system calls.
   result.reserve(16); // a few bytes more than strictly necessary.
   result.append(utils::translate_color(foreground, false))
-    .append(";")
+    .append(";") // parameter separator.
     .append(utils::translate_color(background, true))
-    .append("m");
+    .append("m"); // function letter.
   return result;
 }
 
@@ -166,7 +166,7 @@ std::string ansi::graphic::set_mode(std::initializer_list<Mode> list) {
       result.append(";"); // Only appends if there are more parameters.
     }
   }
-  result.append("m");
+  result.append("m"); // function letter.
   return result;
 }
 
@@ -184,10 +184,10 @@ std::string ansi::graphic::reset_mode(std::initializer_list<Mode> list) {
   for (auto iter = list.begin(); iter != list.end(); ++iter) {
     result.append(utils::translate_graphic_mode(*iter, 0));
     if (std::next(iter) != list.end()) {
-      result.append(";");
+      result.append(";"); // Only appends if there are more parameters.
     }
   }
-  result.append("m");
+  result.append("m"); // function letter.
   return result;
 }
 
