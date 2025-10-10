@@ -33,14 +33,15 @@ Inside `ansi::graphic` can be found all statements related to ANSI graphics mode
 #### FUNCTION: `set_color(Color foreground, Color background)`
 Sets the foreground and background colors.
 - If only one parameter is supplied, the `background` will be set to `Default`.
-- If no parameters are supplied, both foreground and background will be set to `Default`.
+- If no parameter is supplied, both foreground and background will be set to `Default`.
 
 #### FUNCTION: `set_mode({Mode, Mode...})`
 The supplied list of modes will be activated.
+- If no parameter is supplied, well, nothing happens.
 
 #### FUNCTION: `reset_mode({Mode, Mode...})`
-The supplied list of modes will be reset (the terminal default).
-- If no parameters are supplied, all modes will be reset.
+The supplied list of modes will be reset (to the terminal default).
+- If no parameter is supplied, all modes will be reset.
 
 #### FUNCTION: `reset_all()`
 Resets all modes to the terminal defaults. It is marked as `constexpr`, so it can be evaluated at compile time. 
