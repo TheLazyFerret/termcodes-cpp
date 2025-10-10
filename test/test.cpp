@@ -8,11 +8,11 @@
 
 #include <iostream>
 
-#include "ansi/ansi_color.hpp"
+#include "ansi/ansi.hpp"
 
-using namespace ansi;
+using namespace ansi::graphic;
 
 int main(int argc, char** argv) {
-  std::cout << set_color(Color::Red, Color::Blue) << "a" << set_color(Color::Default) << std::endl;
-  return 0;
+  std::cout << set_color(Color::Black, Color::White) << set_mode({Mode::Blinking}) << "a" << reset_all() << std::endl;
+
 }
