@@ -4,7 +4,7 @@
 //!   See the LICENSE file in the project root for full license information.
 //!
 //! Test file
-//!   Compilation: g++ test/test.cpp -Iinclude/ -o test.out
+//!   Compilation: g++ -std=c++17 -Iinclude/ test/test.cpp -o test.out
 
 #include <iostream>
 

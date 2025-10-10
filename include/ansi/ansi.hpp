@@ -154,6 +154,9 @@ std::string ansi::graphic::set_color(const Color foreground, const Color backgro
 ///  return: std::string 
 std::string ansi::graphic::set_mode(std::initializer_list<Mode> list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
+  if (list.size() == 0) {
+    return "";
+  }
   std::string result(utils::KAnsiCodeEscape);
   // Reserve memory to reduce the number of system calls.
   result.reserve(result.size() + (list.size() * KSizePerParam));
