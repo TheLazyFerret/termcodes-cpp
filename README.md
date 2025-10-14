@@ -44,10 +44,10 @@ The supplied list of modes will be reset (to the terminal default).
 - If no parameter is supplied, all modes will be reset.
 
 #### FUNCTION: `reset_all()`
-Resets all modes to the terminal defaults. It is marked as `constexpr`, so it can be evaluated at compile time. 
+Reset all modes and color to the terminal defaults. It is marked as `constexpr`, so it can be evaluated at compile time. 
 
 ## REQUIREMENTS
-- `C++ std` >= 17
+- `C++` >= 17
 
 ## LICENSE
 This library is released under the [MIT](LICENSE) license.
