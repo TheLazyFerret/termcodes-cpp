@@ -137,9 +137,9 @@ const bool enable) {
 ///  return: std::string
 std::string ansi::graphic::set_color(const Color foreground, const Color background) {
     if (foreground == Color::Default && background == Color::Default) {
-    return std::string(utils::KAnsiResetAllGraphicColor);
+    return std::string{utils::KAnsiResetAllGraphicColor};
   }
-  std::string result(utils::KAnsiCodeEscape);
+  std::string result{utils::KAnsiCodeEscape};
   // Reserve memory to reduce the number of system calls.
   result.reserve(16); // a few bytes more than strictly necessary.
   result.append(utils::translate_color(foreground, false))
@@ -155,9 +155,9 @@ std::string ansi::graphic::set_color(const Color foreground, const Color backgro
 std::string ansi::graphic::set_mode(const std::initializer_list<Mode>& list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
   if (list.size() == 0) {
-    return "";
+    return std::string{""};
   }
-  std::string result(utils::KAnsiCodeEscape);
+  std::string result{utils::KAnsiCodeEscape};
   // Reserve memory to reduce the number of system calls.
   result.reserve(result.size() + (list.size() * KSizePerParam));
   for (auto iter = list.begin(); iter != list.end(); ++iter) {
@@ -176,9 +176,9 @@ std::string ansi::graphic::set_mode(const std::initializer_list<Mode>& list) {
 std::string ansi::graphic::reset_mode(const std::initializer_list<Mode>& list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
   if (list.size() == 0) { // No parameters supplied.
-    return std::string(utils::KAnsiResetAllGraphicModes);
+    return std::string{utils::KAnsiResetAllGraphicModes};
   }
-  std::string result(utils::KAnsiCodeEscape);
+  std::string result{utils::KAnsiCodeEscape};
   // Reserve memory to reduce the number of system calls.
   result.reserve(result.size() + (list.size() * KSizePerParam));
   for (auto iter = list.begin(); iter != list.end(); ++iter) {
