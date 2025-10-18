@@ -4,7 +4,7 @@
 //!   See the LICENSE file in the project root for full license information.
 //!
 //! Example file
-//!   Compilation: g++ -std=c++17 -Iinclude/ example/example.cpp -o example.out
+//!   Compilation: g++ -Wall -Werror --pedantic -std=c++17 -Iinclude/ example/example.cpp -o example.out
 
 #include <iostream>
 
