@@ -45,8 +45,8 @@ enum class Mode {
 
 inline std::string set_color(const Color = Color::Default, const Color = Color::Default);
 
-inline std::string set_mode(std::initializer_list<Mode>);
-inline std::string reset_mode(std::initializer_list<Mode>);
+inline std::string set_mode(const std::initializer_list<Mode>&);
+inline std::string reset_mode(const std::initializer_list<Mode>&);
 
 constexpr inline std::string_view reset_all();
 
@@ -152,7 +152,7 @@ std::string ansi::graphic::set_color(const Color foreground, const Color backgro
 /// Return an ANSI codescape setting all the graphic modes (beside the colors).
 ///  param:  std::initializer_list<ansi::graphic::Mode>
 ///  return: std::string 
-std::string ansi::graphic::set_mode(std::initializer_list<Mode> list) {
+std::string ansi::graphic::set_mode(const std::initializer_list<Mode>& list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
   if (list.size() == 0) {
     return "";
@@ -173,7 +173,7 @@ std::string ansi::graphic::set_mode(std::initializer_list<Mode> list) {
 /// Return an ANSI codescape unsetting all the graphic modes (beside the colors).
 ///  param:  std::initializer_list<ansi::graphic::Mode>
 ///  return: std::string
-std::string ansi::graphic::reset_mode(std::initializer_list<Mode> list) {
+std::string ansi::graphic::reset_mode(const std::initializer_list<Mode>& list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
   if (list.size() == 0) { // No parameters supplied.
     return std::string(utils::KAnsiResetAllGraphicModes);
