@@ -239,6 +239,8 @@ constexpr std::string_view ansi::utils::translate_direction(const cursor::Direct
 ///  param:  std::string
 ///  return: std::string
 std::string ansi::cursor::move_cursor(const Direction direction, const std::size_t n) {
-  static constexpr std::size_t KReserveEstimation = 10;
-  const std::string n_string = std::to_string(n);
+  std::string result{utils::KAnsiCodeEscape};
+  result.append(std::to_string(n))
+    .append(utils::translate_direction(direction));
+  return result;
 }
