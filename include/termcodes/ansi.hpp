@@ -54,6 +54,7 @@ constexpr inline std::string_view reset_all();
 
 namespace ansi::cursor {
 
+/// Enum class representing the possible directions when moving the cursor around.
 enum class Direction {
   Up,
   Down,
@@ -61,7 +62,8 @@ enum class Direction {
   Right
 };
 
-inline std::string move_cursor(const Direction, const std::size_t);
+inline std::string move(const Direction, const std::size_t);
+inline std::string jump(const std::size_t, const std::size_t);
 
 }
 
@@ -78,6 +80,11 @@ constexpr std::string_view KAnsiResetAllGraphic = "\x1b[0m";
 
 constexpr inline std::string_view translate_color(const graphic::Color, const bool);
 constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool);
+
+// Move the cursor to the home position (0, 0) usually in top left corner.
+constexpr std::string_view KAnsiResetCursor = "\x1b[H";
+// Erase all the screen (but keeps the cursor in its current position).
+constexpr std::string_view KAnsiCleanScreen = "\x1b[2J";
 
 constexpr inline std::string_view translate_direction(const cursor::Direction);
 
@@ -238,9 +245,9 @@ constexpr std::string_view ansi::utils::translate_direction(const cursor::Direct
 ///  param:  ansi::cursor::Direction
 ///  param:  std::string
 ///  return: std::string
-std::string ansi::cursor::move_cursor(const Direction direction, const std::size_t n) {
+std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
   std::string result{utils::KAnsiCodeEscape};
   result.append(std::to_string(n))
-    .append(utils::translate_direction(direction));
+  .append(utils::translate_direction(direction));
   return result;
 }
