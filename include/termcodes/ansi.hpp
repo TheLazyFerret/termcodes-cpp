@@ -52,6 +52,19 @@ constexpr inline std::string_view reset_all();
 
 }
 
+namespace ansi::cursor {
+
+enum class Direction {
+  Up,
+  Down,
+  Left,
+  Right
+};
+
+inline std::string move_cursor(const Direction, const std::size_t);
+
+}
+
 namespace ansi::utils {
 
 /// Beginning of any ANSI CodeEscape.
@@ -195,4 +208,13 @@ std::string ansi::graphic::reset_mode(std::initializer_list<Mode> list) {
 ///  return: std::string_view
 constexpr std::string_view ansi::graphic::reset_all() {
   return utils::KAnsiResetAllGraphic;
+}
+
+
+/// Return an ANSI codespace that moves the cursor n positions to one direction.
+///  param:  ansi::cursor::Direction
+///  param:  std::string
+///  return: std::string
+std::string ansi::cursor::move_cursor(const Direction direction, const std::size_t n) {
+
 }
