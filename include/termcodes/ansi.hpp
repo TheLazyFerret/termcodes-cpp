@@ -79,6 +79,8 @@ constexpr std::string_view KAnsiResetAllGraphic = "\x1b[0m";
 constexpr inline std::string_view translate_color(const graphic::Color, const bool);
 constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool);
 
+constexpr inline std::string_view translate_direction(const cursor::Direction);
+
 }
 
 /// Implementation
@@ -210,11 +212,33 @@ constexpr std::string_view ansi::graphic::reset_all() {
   return utils::KAnsiResetAllGraphic;
 }
 
+/// Constexpr function that return the function code for each cursor direction.
+///  param:  ansi::cursor::Mode
+///  return: std::string_view
+constexpr std::string_view ansi::utils::translate_direction(const cursor::Direction direction) {
+  switch (direction) {
+    case cursor::Direction::Up:
+      return std::string_view{"A"};
+    break;
+    case cursor::Direction::Down:
+      return std::string_view{"B"};
+    break;
+    case cursor::Direction::Left:
+      return std::string_view{"C"};
+    break;
+    case cursor::Direction::Right:
+      return std::string_view{"D"};
+    break;
+    default: // Not reachable
+      return "0";
+  }
+}
 
 /// Return an ANSI codespace that moves the cursor n positions to one direction.
 ///  param:  ansi::cursor::Direction
 ///  param:  std::string
 ///  return: std::string
 std::string ansi::cursor::move_cursor(const Direction direction, const std::size_t n) {
-
+  static constexpr std::size_t KReserveEstimation = 10;
+  const std::string n_string = std::to_string(n);
 }
