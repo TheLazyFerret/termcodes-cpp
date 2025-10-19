@@ -65,7 +65,10 @@ enum class Direction {
 inline std::string move(const Direction, const std::size_t);
 inline std::string jump(const std::size_t, const std::size_t);
 
-inline constexpr std::string_view clear();
+inline constexpr std::string_view clear_screen();
+
+inline constexpr std::string_view hide_cursor();
+inline constexpr std::string_view show_cursor();
 
 }
 
@@ -75,18 +78,22 @@ namespace ansi::utils {
 constexpr std::string_view KAnsiCodeEscape = "\x1b[";
 /// Set both foreground and background to default (reset).
 constexpr std::string_view KAnsiResetAllGraphicColor = "\x1b[39;49m";
-// Reset all modes (colors not included).
+/// Reset all modes (colors not included).
 constexpr std::string_view KAnsiResetAllGraphicModes = "\x1b[22;23;24;25;27;28;29m";
-// Reset all graphical options (colors and modes).
+/// Reset all graphical options (colors and modes).
 constexpr std::string_view KAnsiResetAllGraphic = "\x1b[0m";
 
 constexpr inline std::string_view translate_color(const graphic::Color, const bool);
 constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool);
 
-// Move the cursor to the home position (0, 0) usually in top left corner.
+/// Move the cursor to the home position (0, 0) usually in top left corner.
 constexpr std::string_view KAnsiResetCursor = "\x1b[H";
-// Erase all the screen (but keeps the cursor in its current position).
+/// Erase all the screen (but keeps the cursor in its current position).
 constexpr std::string_view KAnsiCleanScreen = "\x1b[2J";
+/// makes the cursor visible. NOT COMPATIBLE WITH ALL TERMINALS.
+constexpr std::string_view KAnsiEnableCursor = "\x1b[?25h";
+/// makes the cursor invisible. NOT COMPATIBLE WITH ALL TERMINALS.
+constexpr std::string_view KAnsiDisableCursor = "\x1b[?25l";
 
 constexpr inline std::string_view translate_direction(const cursor::Direction);
 
@@ -232,10 +239,10 @@ constexpr std::string_view ansi::utils::translate_direction(const cursor::Direct
     case cursor::Direction::Down:
       return std::string_view{"B"};
     break;
-    case cursor::Direction::Left:
+    case cursor::Direction::Right:
       return std::string_view{"C"};
     break;
-    case cursor::Direction::Right:
+    case cursor::Direction::Left:
       return std::string_view{"D"};
     break;
     default: // Not reachable
@@ -254,7 +261,7 @@ std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
   return result;
 }
 
-/// Return the ANSI code that moves the cursor to line [x], column [y]
+/// Return the ANSI code that moves the cursor to line [x], column [y].
 ///  param:  std::size_t
 ///  param:  std::size_t
 ///  return: std::string
@@ -267,8 +274,22 @@ std::string ansi::cursor::jump(const std::size_t x, const std::size_t y) {
   return result;
 }
 
-/// Constexpr return the ANSI code that first clear the screen and moves the cursor to home (0, 0)
+/// Constexpr function that return the ANSI code that first clear the screen and moves the cursor to home (0, 0).
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::clear() {
+constexpr std::string_view ansi::cursor::clear_screen() {
   return ansi::utils::KAnsiCleanScreen;
+}
+
+/// Constexpr function that return the ANSI code that shows the cursor. If already visible, does nothing.
+/// Not compatible will all terminals.
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::show_cursor() {
+  return ansi::utils::KAnsiEnableCursor;
+}
+
+/// Constexpr function that return the ANSI code that hides the cursor. If already invisible, does nothing.
+/// Not compatible with all terminals.
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::hide_cursor() {
+  return ansi::utils::KAnsiDisableCursor;
 }
