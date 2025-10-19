@@ -45,8 +45,9 @@ void loading() {
     std::system("sleep 0.2");
 
     // Moves one column to left. So, the next written character in the standard output will rewrite the '\'
-    std::cout << "\\" << move(Direction::Left, 1);
+    std::cout << '\\' << move(Direction::Left, 1);
     std::cout.flush();
+    std::system("sleep 0.2");
 
     ++counter;
   }
