@@ -52,6 +52,23 @@ constexpr inline std::string_view reset_all();
 
 }
 
+namespace ansi::cursor {
+
+/// Enum class representing the possible directions when moving the cursor around.
+enum class Direction {
+  Up,
+  Down,
+  Left,
+  Right
+};
+
+inline std::string move(const Direction, const std::size_t);
+inline std::string jump(const std::size_t, const std::size_t);
+
+inline constexpr std::string_view clear();
+
+}
+
 namespace ansi::utils {
 
 /// Beginning of any ANSI CodeEscape.
@@ -65,6 +82,13 @@ constexpr std::string_view KAnsiResetAllGraphic = "\x1b[0m";
 
 constexpr inline std::string_view translate_color(const graphic::Color, const bool);
 constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool);
+
+// Move the cursor to the home position (0, 0) usually in top left corner.
+constexpr std::string_view KAnsiResetCursor = "\x1b[H";
+// Erase all the screen (but keeps the cursor in its current position).
+constexpr std::string_view KAnsiCleanScreen = "\x1b[2J";
+
+constexpr inline std::string_view translate_direction(const cursor::Direction);
 
 }
 
@@ -195,4 +219,56 @@ std::string ansi::graphic::reset_mode(const std::initializer_list<Mode>& list) {
 ///  return: std::string_view
 constexpr std::string_view ansi::graphic::reset_all() {
   return utils::KAnsiResetAllGraphic;
+}
+
+/// Constexpr function that return the function code for each cursor direction.
+///  param:  ansi::cursor::Mode
+///  return: std::string_view
+constexpr std::string_view ansi::utils::translate_direction(const cursor::Direction direction) {
+  switch (direction) {
+    case cursor::Direction::Up:
+      return std::string_view{"A"};
+    break;
+    case cursor::Direction::Down:
+      return std::string_view{"B"};
+    break;
+    case cursor::Direction::Left:
+      return std::string_view{"C"};
+    break;
+    case cursor::Direction::Right:
+      return std::string_view{"D"};
+    break;
+    default: // Not reachable
+      return "0";
+  }
+}
+
+/// Return the ANSI code escape to move one line or column in the terminal.
+///  param:  ansi::cursor::Direction
+///  param:  std::std::size_t
+///  return: std::string
+std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
+  std::string result{utils::KAnsiCodeEscape};
+  result.append(std::to_string(n))
+    .append(utils::translate_direction(direction));
+  return result;
+}
+
+/// Return the ANSI code that moves the cursor to line [x], column [y]
+///  param:  std::size_t
+///  param:  std::size_t
+///  return: std::string
+std::string ansi::cursor::jump(const std::size_t x, const std::size_t y) {
+  std::string result{utils::KAnsiCodeEscape};
+  result.append(std::to_string(x))
+    .append(";")
+    .append(std::to_string(y))
+    .append("H");
+  return result;
+}
+
+/// Constexpr return the ANSI code that first clear the screen and moves the cursor to home (0, 0)
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::clear() {
+  return ansi::utils::KAnsiCleanScreen;
 }
