@@ -65,6 +65,8 @@ enum class Direction {
 inline std::string move(const Direction, const std::size_t);
 inline std::string jump(const std::size_t, const std::size_t);
 
+inline constexpr std::string_view clear();
+
 }
 
 namespace ansi::utils {
@@ -241,13 +243,32 @@ constexpr std::string_view ansi::utils::translate_direction(const cursor::Direct
   }
 }
 
-/// Return an ANSI codespace that moves the cursor n positions to one direction.
+/// Return the ANSI code escape to move one line or column in the terminal.
 ///  param:  ansi::cursor::Direction
-///  param:  std::string
+///  param:  std::std::size_t
 ///  return: std::string
 std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
   std::string result{utils::KAnsiCodeEscape};
   result.append(std::to_string(n))
-  .append(utils::translate_direction(direction));
+    .append(utils::translate_direction(direction));
   return result;
+}
+
+/// Return the ANSI code that moves the cursor to line [x], column [y]
+///  param:  std::size_t
+///  param:  std::size_t
+///  return: std::string
+std::string ansi::cursor::jump(const std::size_t x, const std::size_t y) {
+  std::string result{utils::KAnsiCodeEscape};
+  result.append(std::to_string(x))
+    .append(";")
+    .append(std::to_string(y))
+    .append("H");
+  return result;
+}
+
+/// Constexpr return the ANSI code that first clear the screen and moves the cursor to home (0, 0)
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::clear() {
+  return ansi::utils::KAnsiCleanScreen;
 }
