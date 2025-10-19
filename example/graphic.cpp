@@ -3,8 +3,8 @@
 //!   Using the license MIT.
 //!   See the LICENSE file in the project root for full license information.
 //!
-//! Example file
-//!   Compilation: g++ -Wall -Werror --pedantic -std=c++17 -Iinclude/ example/example.cpp -o example.out
+//! Example graphics file
+//!   Compilation: g++ -Wall -Werror --pedantic -std=c++17 -Iinclude/ example/graphic.cpp -o graphic.out
 
 #include <iostream>
 
