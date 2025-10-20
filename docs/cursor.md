@@ -35,6 +35,18 @@ Hides the cursor if it is vissible. In any other case, it does nothing.
 - It is marked as `constexpr`, so it can be evaluated at compile time.
 - Although it should work for most devices, it is not guaranteed to work on all of them.
 
+#### FUNCTION: `erase_line()`
+Erase all the line where the cursor is placed.
+- It is marked as `constexpr`, so it can be evaluated at compile time.
+
+#### FUNCTION: `erase_begin_to_cursor()`
+Erase the line from the cursor to the begin of itself.
+- It is marked as `constexpr`, so it can be evaluated at compile time.
+
+#### FUNCTION: `erase_end_to_cursor()`
+Erase the line from the cursor to the end of itself.
+- It is marked as `constexpr`, so it can be evaluated at compile time.
+
 ## Example
 You can see a complete example in [example/cursor.cpp](../example/cursor.cpp)
 
