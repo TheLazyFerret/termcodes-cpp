@@ -1,4 +1,4 @@
-# Termcodes-cpp
+# termcodes-cpp
 The idea of this small library is abstracting the obscure and complex ANSI
 codescapes in a simpler and friendly way.
 
