@@ -1,7 +1,4 @@
 # CODESCAPE-CPP
-Easy ANSI codescapes for `C++`.
-
-## About
 The idea of this small library is abstracting the obscure and complex ANSI
 codescapes in a simpler and friendly way.
 
