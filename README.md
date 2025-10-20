@@ -11,6 +11,8 @@ supported.
 
 Remember that this library is a work in progress.
 
+Using my own [style guide](https://github.com/TheLazyFerret/dots-and-templates/blob/master/cpp/style_guide.md).
+
 ## Usage
 See the [docs](docs/index.md) for more information.
 
