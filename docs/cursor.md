@@ -36,7 +36,8 @@ Hides the cursor if it is vissible. In any other case, it does nothing.
 - Although it should work for most devices, it is not guaranteed to work on all of them.
 
 #### FUNCTION: `erase_line()`
-Erase all the line where the cursor is placed.
+Erase all the line where the cursor is placed and moves the cursor to
+the start of the line.
 - It is marked as `constexpr`, so it can be evaluated at compile time.
 
 #### FUNCTION: `erase_begin_to_cursor()`

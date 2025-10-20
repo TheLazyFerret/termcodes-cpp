@@ -63,6 +63,7 @@ enum class Direction {
 };
 
 inline std::string move(const Direction, const std::size_t);
+inline constexpr std::string_view move_start() noexcept;
 inline std::string jump(const std::size_t, const std::size_t);
 
 inline constexpr std::string_view clear_screen() noexcept;
@@ -104,6 +105,10 @@ constexpr std::string_view KAnsiEraseLineCursorToEnd = "\x1b[0K";
 constexpr std::string_view KAnsiEraseLineFromCursorToBegin = "\x1b[1K";
 /// Erase the line.
 constexpr std::string_view KAnsiEraseLine = "\x1b[2K"; 
+/// Moves the cursor to the begin of the line.
+constexpr std::string_view KAnsiMoveToStart = "\x1b[0E";
+/// Erase line and moves cursor to start of line
+constexpr std::string_view KAnsiEraseLineAndMove = "\x1b[2K\x1b[0E";
 
 constexpr inline std::string_view translate_direction(const cursor::Direction) noexcept;
 
@@ -307,7 +312,7 @@ constexpr std::string_view ansi::cursor::hide_cursor() noexcept {
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 ///  return: std::string_view
 constexpr std::string_view ansi::cursor::erase_line() noexcept {
-  return ansi::utils::KAnsiEraseLine;
+  return ansi::utils::KAnsiEraseLineAndMove;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
@@ -322,4 +327,8 @@ constexpr std::string_view ansi::cursor::erase_begin_to_cursor() noexcept {
 ///  return: std::string_view
 constexpr std::string_view ansi::cursor::erase_end_to_cursor() noexcept {
   return ansi::utils::KAnsiEraseLineCursorToEnd;
+}
+
+constexpr std::string_view ansi::cursor::move_start() noexcept {
+  return ansi::utils::KAnsiMoveToStart;
 }
