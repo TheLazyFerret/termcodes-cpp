@@ -13,22 +13,24 @@
 
 using namespace ansi::cursor;
 
-void loading();
+void loading_spinning();
+void loading_dots();
 
 int main() {
-  loading();
+  loading_spinning();
+  loading_dots();
   return 0;
 }
 
 /// Snippet of a moving character, like a loading screen.
-void loading() {
+void loading_spinning() {
   // Important to flush after each written character.
   // If not flushed, all characters will be flushed off the buffer at the same time
   // And won´t have the movement effect.
   std::size_t counter = 0;
   std::cout << hide_cursor() << "Loading: "; // Hides the cursor. Not compatible with all the terminals
   std::cout.flush();
-  while(counter < 10) {
+  while(counter < 5) {
     // Moves one column to left. So, the next written character in the standard output will rewrite the '|'
     std::cout << "|" << move(Direction::Left, 1);
     std::cout.flush();
@@ -53,4 +55,32 @@ void loading() {
   }
   // Reminder that std::endl flush the buffer.
   std::cout << "done" << show_cursor() << std::endl; // Shows back the cursor. Again, not compatible with all terminals
+}
+
+/// Snippet of a three dots loading.
+void loading_dots() {
+  std::size_t counter = 0;
+  // As in the previous function, it is important calling flush after each call.
+  std::cout << hide_cursor() << "Loading";
+  std::cout.flush();
+  while(counter < 5) {
+    std::cout << ".";
+    std::cout.flush();
+    std::system("sleep 0.5");
+
+    std::cout << ".";
+    std::cout.flush();
+    std::system("sleep 0.5");
+
+    std::cout << ".";
+    std::cout.flush();
+    std::system("sleep 0.5");
+
+    /// Moves three columns to the left the cursor, the erase from the cursor to the end of the line.
+    std::cout << move(Direction::Left, 3) << erase_end_to_cursor();
+    std::cout.flush();
+    std::system("sleep 0.5");
+    ++counter;
+  }
+  std::cout << "...done" << show_cursor() << std::endl;
 }
