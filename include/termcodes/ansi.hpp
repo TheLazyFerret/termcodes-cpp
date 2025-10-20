@@ -261,15 +261,15 @@ std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
   return result;
 }
 
-/// Return the ANSI code that moves the cursor to line [x], column [y].
+/// Return the ANSI code that moves the cursor to line [n], column [m].
 ///  param:  std::size_t
 ///  param:  std::size_t
 ///  return: std::string
-std::string ansi::cursor::jump(const std::size_t x, const std::size_t y) {
+std::string ansi::cursor::jump(const std::size_t n, const std::size_t m) {
   std::string result{utils::KAnsiCodeEscape};
-  result.append(std::to_string(x))
+  result.append(std::to_string(n))
     .append(";")
-    .append(std::to_string(y))
+    .append(std::to_string(m))
     .append("H");
   return result;
 }

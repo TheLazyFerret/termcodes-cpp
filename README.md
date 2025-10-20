@@ -1,53 +1,21 @@
 # CODESCAPE-CPP
 Easy ANSI codescapes for `C++`.
 
-## USAGE
-All declarations are inside the namespace `ansi`.
+## About
+The idea of this small library is abstracting the obscure and complex ANSI
+codescapes in a simpler and friendly way.
 
-### ansi::graphic
-Inside `ansi::graphic` can be found all statements related to ANSI graphics modes.
-#### ENUM: `Color`
-|Value|Effect|
-|---|---|
-|Black|The text will be displayed in black.|
-|Red|The text will be displayed in red.|
-|Green|The text will be displayed in green.|
-|Yellow|The text will be displayed in yellow.|
-|Blue|The text will be displayed in blue.|
-|Magenta|The text will be displayed in magenta.|
-|Cyan|The text will be displayed in cyan.|
-|White|The text will be displayed in white.|
-|Default|The text will be displayed in the default terminal color.|
+I chose to simplify the codes as much as possible, so not all codes are
+included. In addition, I chose to leave out most codes that are not widely
+supported.
 
-#### ENUM: `Mode`
-|Value|Effect|
-|---|---|
-|Bold|The text will be displayed in bold.|
-|Dim|The text will be displayed dimmed.|
-|Italic|The text will be displayed in italic.|
-|Underline|The text will be displayed with an underline.|
-|Blinking|The text will blink.|
-|Inverse|The background and foreground will be swapped.|
-|Strike|The text will be displayed with a strikethrough.|
+Remember that this library is a work in progress.
 
-#### FUNCTION: `set_color(Color foreground, Color background)`
-Sets the foreground and background colors.
-- If only one parameter is supplied, the `background` will be set to `Default`.
-- If no parameter is supplied, both foreground and background will be set to `Default`.
+## Usage
+See the [docs](docs/index.md) for more information.
 
-#### FUNCTION: `set_mode({Mode, Mode...})`
-The supplied list of modes will be activated.
-- If no parameter is supplied, well, nothing happens.
+## Example
+Check [this](example/) for some examples.
 
-#### FUNCTION: `reset_mode({Mode, Mode...})`
-The supplied list of modes will be reset (to the terminal default).
-- If no parameter is supplied, all modes will be reset.
-
-#### FUNCTION: `reset_all()`
-Reset all modes and color to the terminal defaults. It is marked as `constexpr`, so it can be evaluated at compile time. 
-
-## REQUIREMENTS
-- `C++` >= 17
-
-## LICENSE
+## License
 This library is released under the [MIT](LICENSE) license.
