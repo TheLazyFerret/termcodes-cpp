@@ -1,6 +1,10 @@
 # Termccodes - cursor
 In this namespace, all the functions that works with the cursor or the screen. Due they are quite related, I decided to not split them.
 
+*When using with `std::basic_ostream`, please remember
+that this is a buffered stream. You probably want to
+flush the buffer after each call.*
+
 ## Usage
 #### ENUM: `Direction`
 |Value|Effect|
