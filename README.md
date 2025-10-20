@@ -6,7 +6,9 @@ I chose to simplify the codes as much as possible, so not all codes are
 included. In addition, I chose to leave out most codes that are not widely
 supported.
 
-Remember that this library is a work in progress.
+Only compatible with unix-line systems. Although only tested on linux.
+
+Please remember that this library is a work in progress.
 
 Using my own [style guide](https://github.com/TheLazyFerret/dots-and-templates/blob/master/cpp/style_guide.md).
 
