@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "termcodes/termcodes.hpp"
+#include "termcodes/ansi.hpp"
 
 using namespace termcodes::graphic;
 

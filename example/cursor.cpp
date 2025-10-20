@@ -9,7 +9,7 @@
 #include <iostream>
 #include <cstdio>
 
-#include "termcodes/termcodes.hpp"
+#include "termcodes/ansi.hpp"
 
 using namespace termcodes::cursor;
 

@@ -2,7 +2,7 @@
 ## Installation
 Not external compilation required, just include the header in your project.
 
-`#include "termcodes/termcodes.hpp"`
+`#include "termcodes/ansi.hpp"`
 
 ## Requirements
 - `C++ std >= 17`
