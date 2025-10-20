@@ -48,7 +48,7 @@ inline std::string set_color(const Color = Color::Default, const Color = Color::
 inline std::string set_mode(const std::initializer_list<Mode>&);
 inline std::string reset_mode(const std::initializer_list<Mode>&);
 
-constexpr inline std::string_view reset_all();
+constexpr inline std::string_view reset_all() noexcept;
 
 }
 
@@ -65,14 +65,14 @@ enum class Direction {
 inline std::string move(const Direction, const std::size_t);
 inline std::string jump(const std::size_t, const std::size_t);
 
-inline constexpr std::string_view clear_screen();
+inline constexpr std::string_view clear_screen() noexcept;
 
-inline constexpr std::string_view hide_cursor() ;
-inline constexpr std::string_view show_cursor();
+inline constexpr std::string_view hide_cursor() noexcept;
+inline constexpr std::string_view show_cursor() noexcept;
 
-inline constexpr std::string_view erase_line();
-inline constexpr std::string_view erase_begin_to_cursor();
-inline constexpr std::string_view erase_end_to_cursor();
+inline constexpr std::string_view erase_line() noexcept;
+inline constexpr std::string_view erase_begin_to_cursor() noexcept;
+inline constexpr std::string_view erase_end_to_cursor() noexcept;
 
 }
 
@@ -87,8 +87,8 @@ constexpr std::string_view KAnsiResetAllGraphicModes = "\x1b[22;23;24;25;27;28;2
 /// Reset all graphical options (colors and modes).
 constexpr std::string_view KAnsiResetAllGraphic = "\x1b[0m";
 
-constexpr inline std::string_view translate_color(const graphic::Color, const bool);
-constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool);
+constexpr inline std::string_view translate_color(const graphic::Color, const bool) noexcept;
+constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool) noexcept;
 
 /// Move the cursor to the home position (0, 0) usually in top left corner.
 constexpr std::string_view KAnsiResetCursor = "\x1b[H";
@@ -105,7 +105,7 @@ constexpr std::string_view KAnsiEraseLineFromCursorToBegin = "\x1b[1K";
 /// Erase the line.
 constexpr std::string_view KAnsiEraseLine = "\x1b[2K"; 
 
-constexpr inline std::string_view translate_direction(const cursor::Direction);
+constexpr inline std::string_view translate_direction(const cursor::Direction) noexcept;
 
 }
 
@@ -116,7 +116,7 @@ constexpr inline std::string_view translate_direction(const cursor::Direction);
 ///  param:  const bool
 ///  return: std::string_view
 constexpr std::string_view ansi::utils::translate_color(const graphic::Color color, 
-const bool background) {
+const bool background) noexcept {
   switch (color) {
     case graphic::Color::Black:
       return (background) ? "40" : "30";
@@ -147,7 +147,7 @@ const bool background) {
 ///  param:  const bool
 ///  return: std::string_view
 constexpr std::string_view ansi::utils::translate_graphic_mode(const graphic::Mode mode, 
-const bool enable) {
+const bool enable) noexcept {
   switch(mode) {
     case graphic::Mode::Bold:
       return (enable) ? "1" : "22";
@@ -234,26 +234,26 @@ std::string ansi::graphic::reset_mode(const std::initializer_list<Mode>& list) {
 
 /// Constexpr function that reset all ANSI graphical (both colors and modes).
 ///  return: std::string_view
-constexpr std::string_view ansi::graphic::reset_all() {
+constexpr std::string_view ansi::graphic::reset_all() noexcept {
   return utils::KAnsiResetAllGraphic;
 }
 
 /// Constexpr function that return the function code for each cursor direction.
 ///  param:  ansi::cursor::Mode
 ///  return: std::string_view
-constexpr std::string_view ansi::utils::translate_direction(const cursor::Direction direction) {
+constexpr std::string_view ansi::utils::translate_direction(const cursor::Direction direction) noexcept {
   switch (direction) {
     case cursor::Direction::Up:
-      return std::string_view{"A"};
+      return "A";
     break;
     case cursor::Direction::Down:
-      return std::string_view{"B"};
+      return "B";
     break;
     case cursor::Direction::Right:
-      return std::string_view{"C"};
+      return "C";
     break;
     case cursor::Direction::Left:
-      return std::string_view{"D"};
+      return "D";
     break;
     default: // Not reachable
       return "0";
@@ -286,40 +286,40 @@ std::string ansi::cursor::jump(const std::size_t n, const std::size_t m) {
 
 /// Constexpr function that return the ANSI code that first clear the screen and moves the cursor to home (0, 0).
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::clear_screen() {
+constexpr std::string_view ansi::cursor::clear_screen() noexcept {
   return ansi::utils::KAnsiCleanScreen;
 }
 
 /// Constexpr function that return the ANSI code that shows the cursor. If already visible, does nothing.
 /// Not compatible will all terminals.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::show_cursor() {
+constexpr std::string_view ansi::cursor::show_cursor() noexcept {
   return ansi::utils::KAnsiEnableCursor;
 }
 
 /// Constexpr function that return the ANSI code that hides the cursor. If already invisible, does nothing.
 /// Not compatible with all terminals.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::hide_cursor() {
+constexpr std::string_view ansi::cursor::hide_cursor() noexcept {
   return ansi::utils::KAnsiDisableCursor;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::erase_line() {
+constexpr std::string_view ansi::cursor::erase_line() noexcept {
   return ansi::utils::KAnsiEraseLine;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
 /// from the cursor position to the begin of the line.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::erase_begin_to_cursor() {
+constexpr std::string_view ansi::cursor::erase_begin_to_cursor() noexcept {
   return ansi::utils::KAnsiEraseLineFromCursorToBegin;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
 /// from the cursor position to the end of the line.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::erase_end_to_cursor() {
+constexpr std::string_view ansi::cursor::erase_end_to_cursor() noexcept {
   return ansi::utils::KAnsiEraseLineCursorToEnd;
 }
