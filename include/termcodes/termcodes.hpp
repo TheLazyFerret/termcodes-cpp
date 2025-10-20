@@ -16,7 +16,7 @@
 
 /// Declaration
 
-namespace ansi::graphic {
+namespace termcodes::graphic {
 
 /// Enum class representing the basic colors.
 enum class Color {
@@ -52,7 +52,7 @@ constexpr inline std::string_view reset_all() noexcept;
 
 }
 
-namespace ansi::cursor {
+namespace termcodes::cursor {
 
 /// Enum class representing the possible directions when moving the cursor around.
 enum class Direction {
@@ -77,7 +77,7 @@ inline constexpr std::string_view erase_end_to_cursor() noexcept;
 
 }
 
-namespace ansi::utils {
+namespace termcodes::utils {
 
 /// Beginning of any ANSI CodeEscape.
 constexpr std::string_view KAnsiCodeEscape = "\x1b[";
@@ -117,10 +117,10 @@ constexpr inline std::string_view translate_direction(const cursor::Direction) n
 /// Implementation
 
 /// Constexpr function that returns the ANSI numerical code of each color.
-///  param:  const ansi::graphic::Color
+///  param:  const termcodes::graphic::Color
 ///  param:  const bool
 ///  return: std::string_view
-constexpr std::string_view ansi::utils::translate_color(const graphic::Color color, 
+constexpr std::string_view termcodes::utils::translate_color(const graphic::Color color, 
 const bool background) noexcept {
   switch (color) {
     case graphic::Color::Black:
@@ -146,12 +146,12 @@ const bool background) noexcept {
   }
 }
 
-/// Constexpr function that returns the ansi numerical code of each graphic mode.
+/// Constexpr function that returns the ANSI numerical code of each graphic mode.
 /// It does not take into account colors, which go in a separate function and namespace.
-///  param:  const ansi::graphic::Mode 
+///  param:  const termcodes::graphic::Mode 
 ///  param:  const bool
 ///  return: std::string_view
-constexpr std::string_view ansi::utils::translate_graphic_mode(const graphic::Mode mode, 
+constexpr std::string_view termcodes::utils::translate_graphic_mode(const graphic::Mode mode, 
 const bool enable) noexcept {
   switch(mode) {
     case graphic::Mode::Bold:
@@ -178,10 +178,10 @@ const bool enable) noexcept {
 /// Return an ANSI codescape setting the foreground color and background.
 /// If background color is not set, set the default terminal color.
 /// If no parameters are supplied, both colors are set to the default color.
-///  param:  ansi::graphic::Color 
-///  param:  ansi::graphic::Color 
+///  param:  termcodes::graphic::Color 
+///  param:  termcodes::graphic::Color 
 ///  return: std::string
-std::string ansi::graphic::set_color(const Color foreground, const Color background) {
+std::string termcodes::graphic::set_color(const Color foreground, const Color background) {
     if (foreground == Color::Default && background == Color::Default) {
     return std::string{utils::KAnsiResetAllGraphicColor};
   }
@@ -196,9 +196,9 @@ std::string ansi::graphic::set_color(const Color foreground, const Color backgro
 }
 
 /// Return an ANSI codescape setting all the graphic modes (beside the colors).
-///  param:  std::initializer_list<ansi::graphic::Mode>
+///  param:  std::initializer_list<termcodes::graphic::Mode>
 ///  return: std::string 
-std::string ansi::graphic::set_mode(const std::initializer_list<Mode>& list) {
+std::string termcodes::graphic::set_mode(const std::initializer_list<Mode>& list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
   if (list.size() == 0) {
     return std::string{""};
@@ -217,9 +217,9 @@ std::string ansi::graphic::set_mode(const std::initializer_list<Mode>& list) {
 }
 
 /// Return an ANSI codescape unsetting all the graphic modes (beside the colors).
-///  param:  std::initializer_list<ansi::graphic::Mode>
+///  param:  std::initializer_list<termcodes::graphic::Mode>
 ///  return: std::string
-std::string ansi::graphic::reset_mode(const std::initializer_list<Mode>& list) {
+std::string termcodes::graphic::reset_mode(const std::initializer_list<Mode>& list) {
   static constexpr std::size_t KSizePerParam = 4; // An estimated size in bytes of each parameter.
   if (list.size() == 0) { // No parameters supplied.
     return std::string{utils::KAnsiResetAllGraphicModes};
@@ -239,14 +239,14 @@ std::string ansi::graphic::reset_mode(const std::initializer_list<Mode>& list) {
 
 /// Constexpr function that reset all ANSI graphical (both colors and modes).
 ///  return: std::string_view
-constexpr std::string_view ansi::graphic::reset_all() noexcept {
+constexpr std::string_view termcodes::graphic::reset_all() noexcept {
   return utils::KAnsiResetAllGraphic;
 }
 
 /// Constexpr function that return the function code for each cursor direction.
-///  param:  ansi::cursor::Mode
+///  param:  termcodes::cursor::Mode
 ///  return: std::string_view
-constexpr std::string_view ansi::utils::translate_direction(const cursor::Direction direction) noexcept {
+constexpr std::string_view termcodes::utils::translate_direction(const cursor::Direction direction) noexcept {
   switch (direction) {
     case cursor::Direction::Up:
       return "A";
@@ -266,10 +266,10 @@ constexpr std::string_view ansi::utils::translate_direction(const cursor::Direct
 }
 
 /// Return the ANSI code escape to move one line or column in the terminal.
-///  param:  ansi::cursor::Direction
+///  param:  termcodes::cursor::Direction
 ///  param:  std::std::size_t
 ///  return: std::string
-std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
+std::string termcodes::cursor::move(const Direction direction, const std::size_t n) {
   std::string result{utils::KAnsiCodeEscape};
   result.append(std::to_string(n))
     .append(utils::translate_direction(direction));
@@ -280,7 +280,7 @@ std::string ansi::cursor::move(const Direction direction, const std::size_t n) {
 ///  param:  std::size_t
 ///  param:  std::size_t
 ///  return: std::string
-std::string ansi::cursor::jump(const std::size_t n, const std::size_t m) {
+std::string termcodes::cursor::jump(const std::size_t n, const std::size_t m) {
   std::string result{utils::KAnsiCodeEscape};
   result.append(std::to_string(n))
     .append(";")
@@ -291,44 +291,46 @@ std::string ansi::cursor::jump(const std::size_t n, const std::size_t m) {
 
 /// Constexpr function that return the ANSI code that first clear the screen and moves the cursor to home (0, 0).
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::clear_screen() noexcept {
-  return ansi::utils::KAnsiCleanScreen;
+constexpr std::string_view termcodes::cursor::clear_screen() noexcept {
+  return utils::KAnsiCleanScreen;
 }
 
 /// Constexpr function that return the ANSI code that shows the cursor. If already visible, does nothing.
 /// Not compatible will all terminals.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::show_cursor() noexcept {
-  return ansi::utils::KAnsiEnableCursor;
+constexpr std::string_view termcodes::cursor::show_cursor() noexcept {
+  return utils::KAnsiEnableCursor;
 }
 
 /// Constexpr function that return the ANSI code that hides the cursor. If already invisible, does nothing.
 /// Not compatible with all terminals.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::hide_cursor() noexcept {
-  return ansi::utils::KAnsiDisableCursor;
+constexpr std::string_view termcodes::cursor::hide_cursor() noexcept {
+  return utils::KAnsiDisableCursor;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::erase_line() noexcept {
-  return ansi::utils::KAnsiEraseLineAndMove;
+constexpr std::string_view termcodes::cursor::erase_line() noexcept {
+  return utils::KAnsiEraseLineAndMove;
 }
 
-/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
+/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 /// from the cursor position to the begin of the line.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::erase_begin_to_cursor() noexcept {
-  return ansi::utils::KAnsiEraseLineFromCursorToBegin;
+constexpr std::string_view termcodes::cursor::erase_begin_to_cursor() noexcept {
+  return utils::KAnsiEraseLineFromCursorToBegin;
 }
 
-/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
+/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 /// from the cursor position to the end of the line.
 ///  return: std::string_view
-constexpr std::string_view ansi::cursor::erase_end_to_cursor() noexcept {
-  return ansi::utils::KAnsiEraseLineCursorToEnd;
+constexpr std::string_view termcodes::cursor::erase_end_to_cursor() noexcept {
+  return utils::KAnsiEraseLineCursorToEnd;
 }
 
-constexpr std::string_view ansi::cursor::move_start() noexcept {
-  return ansi::utils::KAnsiMoveToStart;
+/// Constexpr function that return the ANSI code to move the cursor to the start of the current line.
+///  return: std::string_view
+constexpr std::string_view termcodes::cursor::move_start() noexcept {
+  return utils::KAnsiMoveToStart;
 }

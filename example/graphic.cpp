@@ -8,9 +8,9 @@
 
 #include <iostream>
 
-#include "termcodes/ansi.hpp"
+#include "termcodes/termcodes.hpp"
 
-using namespace ansi::graphic;
+using namespace termcodes::graphic;
 
 int main() {
   // Set the foreground color to red. 

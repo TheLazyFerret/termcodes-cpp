@@ -1,4 +1,4 @@
-# Termcodes - graphic
+# termcodes - graphic
 In this namespace, all the functions related to the different
 graphic modes that ANSI supports are found here.
 
@@ -48,7 +48,7 @@ Reset all modes and color to the terminal defaults.
 You can see a complete example in [example/graphic.cpp](../example/graphic.cpp)
 
 ```cpp
-using namespace ansi::graphic;
+using namespace termcodes::graphic;
 
 int main() {
   std::cout << set_mode({Mode::Underline, Mode::Bold}) 

@@ -1,4 +1,4 @@
-# Termccodes - cursor
+# termcodes - cursor
 In this namespace, all the functions that works with the cursor or the screen. Due they are quite related, I decided to not split them.
 
 *When using with `std::basic_ostream`, please remember
@@ -52,7 +52,7 @@ Erase the line from the cursor to the end of itself.
 You can see a complete example in [example/cursor.cpp](../example/cursor.cpp)
 
 ```cpp
-using namespace ansi::cursor;
+using namespace termcodes::cursor;
 
   int main() {
     std::cout << clear_screen() << "Hello world!" << std::endl;    

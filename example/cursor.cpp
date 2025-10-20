@@ -9,9 +9,9 @@
 #include <iostream>
 #include <cstdio>
 
-#include "termcodes/ansi.hpp"
+#include "termcodes/termcodes.hpp"
 
-using namespace ansi::cursor;
+using namespace termcodes::cursor;
 
 void loading_spinning();
 void loading_dots();
