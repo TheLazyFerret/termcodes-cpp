@@ -16,5 +16,13 @@ See the [docs](docs/index.md) for more information.
 ## Example
 Check [this](example/) for some examples.
 
+## Project structure
+```
+docs/     # Documentation and usage.
+example/  # Example of use.
+include/  # Library source code and public header.
+LICENSE   # MIT license.
+```
+
 ## License
 This library is released under the [MIT](LICENSE) license.
