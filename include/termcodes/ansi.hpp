@@ -67,8 +67,12 @@ inline std::string jump(const std::size_t, const std::size_t);
 
 inline constexpr std::string_view clear_screen();
 
-inline constexpr std::string_view hide_cursor();
+inline constexpr std::string_view hide_cursor() ;
 inline constexpr std::string_view show_cursor();
+
+inline constexpr std::string_view erase_line();
+inline constexpr std::string_view erase_begin_to_cursor();
+inline constexpr std::string_view erase_end_to_cursor();
 
 }
 
@@ -94,6 +98,12 @@ constexpr std::string_view KAnsiCleanScreen = "\x1b[2J";
 constexpr std::string_view KAnsiEnableCursor = "\x1b[?25h";
 /// makes the cursor invisible. NOT COMPATIBLE WITH ALL TERMINALS.
 constexpr std::string_view KAnsiDisableCursor = "\x1b[?25l";
+/// Erase the line, from the cursor to the end.
+constexpr std::string_view KAnsiEraseLineCursorToEnd = "\x1b[0K";
+/// Erase the line, from the cursor to the begin.
+constexpr std::string_view KAnsiEraseLineFromCursorToBegin = "\x1b[1K";
+/// Erase the line.
+constexpr std::string_view KAnsiEraseLine = "\x1b[2K"; 
 
 constexpr inline std::string_view translate_direction(const cursor::Direction);
 
@@ -292,4 +302,24 @@ constexpr std::string_view ansi::cursor::show_cursor() {
 ///  return: std::string_view
 constexpr std::string_view ansi::cursor::hide_cursor() {
   return ansi::utils::KAnsiDisableCursor;
+}
+
+/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::erase_line() {
+  return ansi::utils::KAnsiEraseLine;
+}
+
+/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
+/// from the cursor position to the begin of the line.
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::erase_begin_to_cursor() {
+  return ansi::utils::KAnsiEraseLineFromCursorToBegin;
+}
+
+/// Constexpr function that return the ANSI code to erase the line where the cursor is positioned
+/// from the cursor position to the end of the line.
+///  return: std::string_view
+constexpr std::string_view ansi::cursor::erase_end_to_cursor() {
+  return ansi::utils::KAnsiEraseLineCursorToEnd;
 }
