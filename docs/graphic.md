@@ -39,6 +39,7 @@ The supplied list of modes will be activated.
 #### FUNCTION: `reset_mode({Mode, Mode...})`
 The supplied list of modes will be reset (to the terminal default).
 - If no parameter is supplied, all modes will be reset.
+- `Bold` and `Dime` use the same code for disabling. So if reseted, both will be reseted.
 
 #### FUNCTION: `reset_all()`
 Reset all modes and color to the terminal defaults. 
