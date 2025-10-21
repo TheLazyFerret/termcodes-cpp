@@ -25,7 +25,7 @@ position (including the cursor).
 - It is marked as `constexpr`, so it can be evaluated at compile time.
 
 ## Example
-You can see a complete example in [example/erase.cpp]
+You can see a complete example in [example/erase.cpp](../example/erase.cpp)
 
 ```cpp
 using namespace termcodes::cursor;
