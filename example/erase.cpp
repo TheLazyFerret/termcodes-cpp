@@ -7,7 +7,7 @@
 //!   Compilation: g++ -Wall -Werror --pedantic -std=c++17 -Iinclude/ example/erase.cpp -o erase.out
 
 #include <iostream>
-#include <cstdio>
+#include <unistd.h>
 
 #include "termcodes/ansi.hpp"
 
@@ -21,29 +21,30 @@ int main() {
   return 0;
 }
 
+
 /// Snippet of a three dots loading.
 void loading_dots() {
   std::size_t counter = 0;
   // As in the cursor example, it is important calling flush after each call.
   std::cout << hide_cursor() << "Loading";
   std::cout.flush();
-  while(counter < 5) {
+  while(counter < 2) {
     std::cout << ".";
     std::cout.flush();
-    std::system("sleep 0.5");
+    sleep(1);
 
     std::cout << ".";
     std::cout.flush();
-    std::system("sleep 0.5");
+    sleep(1);
 
     std::cout << ".";
     std::cout.flush();
-    std::system("sleep 0.5");
+    sleep(1);
 
     /// Moves three columns to the left the cursor, the erase from the cursor to the end of the line.
     std::cout << move(Direction::Left, 3) << erase_cursor_to_end();
     std::cout.flush();
-    std::system("sleep 0.5");
+    sleep(1);
     ++counter;
   }
   std::cout << " done" << show_cursor() << std::endl;

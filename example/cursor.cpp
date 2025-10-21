@@ -7,18 +7,16 @@
 //!   Compilation: g++ -Wall -Werror --pedantic -std=c++17 -Iinclude/ example/cursor.cpp -o cursor.out
 
 #include <iostream>
-#include <cstdio>
+#include <unistd.h>
 
 #include "termcodes/ansi.hpp"
 
 using namespace termcodes::cursor;
 
 void loading_spinning();
-void loading_dots();
 
 int main() {
   loading_spinning();
-  loading_dots();
   return 0;
 }
 
@@ -30,26 +28,26 @@ void loading_spinning() {
   std::size_t counter = 0;
   std::cout << hide_cursor() << "Loading: "; // Hides the cursor. Not compatible with all the terminals
   std::cout.flush();
-  while(counter < 5) {
+  while(counter < 2) {
     // Moves one column to left. So, the next written character in the standard output will rewrite the '|'
     std::cout << "|" << move(Direction::Left, 1);
     std::cout.flush();
-    std::system("sleep 0.2");
+    sleep(1);
 
     // Moves one column to left. So, the next written character in the standard output will rewrite the '/'
     std::cout << "/" << move(Direction::Left, 1);
     std::cout.flush();
-    std::system("sleep 0.2");
+    sleep(1);
 
     // Moves one column to left. So, the next written character in the standard output will rewrite the '-'
     std::cout << "-" << move(Direction::Left, 1);
     std::cout.flush();
-    std::system("sleep 0.2");
+    sleep(1);
 
     // Moves one column to left. So, the next written character in the standard output will rewrite the '\'
     std::cout << '\\' << move(Direction::Left, 1);
     std::cout.flush();
-    std::system("sleep 0.2");
+    sleep(1);
 
     ++counter;
   }
