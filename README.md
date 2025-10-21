@@ -18,8 +18,16 @@ See the [docs](docs/index.md) for more information.
 ## Example
 Check [this](example/) for some examples.
 
+## Installation
+Not external compilation required, just include the header in your project.
+
+`#include "termcodes/ansi.hpp"`
+
+## Requirements
+- `C++ std >= 17`
+
 ## Project structure
-```
+```sh
 docs/     # Documentation and usage.
 example/  # Example of use.
 include/  # Library source code and public header.
