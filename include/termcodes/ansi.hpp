@@ -63,11 +63,11 @@ enum class Direction {
 };
 
 inline std::string move(const Direction, const std::size_t);
-inline constexpr std::string_view jump_line_begin() noexcept;
 inline std::string jump(const std::size_t, const std::size_t);
+inline constexpr std::string_view jump_line_begin() noexcept;
 
-inline constexpr std::string_view hide_cursor() noexcept;
 inline constexpr std::string_view show_cursor() noexcept;
+inline constexpr std::string_view hide_cursor() noexcept;
 
 }
 
@@ -76,8 +76,8 @@ namespace termcodes::erase {
 inline constexpr std::string_view clear_screen() noexcept;
 
 inline constexpr std::string_view erase_line() noexcept;
-inline constexpr std::string_view erase_begin_to_cursor() noexcept;
-inline constexpr std::string_view erase_end_to_cursor() noexcept;
+inline constexpr std::string_view erase_cursor_to_begin() noexcept;
+inline constexpr std::string_view erase_cursor_to_end() noexcept;
 
 }
 
@@ -343,13 +343,13 @@ constexpr std::string_view termcodes::erase::erase_line() noexcept {
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 /// from the cursor position to the begin of the line.
 ///  return: std::string_view
-constexpr std::string_view termcodes::erase::erase_begin_to_cursor() noexcept {
+constexpr std::string_view termcodes::erase::erase_cursor_to_begin() noexcept {
   return utils::KAnsiEraseLineFromCursorToBegin;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 /// from the cursor position to the end of the line.
 ///  return: std::string_view
-constexpr std::string_view termcodes::erase::erase_end_to_cursor() noexcept {
+constexpr std::string_view termcodes::erase::erase_cursor_to_end() noexcept {
   return utils::KAnsiEraseLineCursorToEnd;
 }

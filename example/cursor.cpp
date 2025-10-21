@@ -56,31 +56,3 @@ void loading_spinning() {
   // Reminder that std::endl flush the buffer.
   std::cout << "done" << show_cursor() << std::endl; // Shows back the cursor. Again, not compatible with all terminals
 }
-
-/// Snippet of a three dots loading.
-void loading_dots() {
-  std::size_t counter = 0;
-  // As in the previous function, it is important calling flush after each call.
-  std::cout << hide_cursor() << "Loading";
-  std::cout.flush();
-  while(counter < 5) {
-    std::cout << ".";
-    std::cout.flush();
-    std::system("sleep 0.5");
-
-    std::cout << ".";
-    std::cout.flush();
-    std::system("sleep 0.5");
-
-    std::cout << ".";
-    std::cout.flush();
-    std::system("sleep 0.5");
-
-    /// Moves three columns to the left the cursor, the erase from the cursor to the end of the line.
-    std::cout << move(Direction::Left, 3) << erase_end_to_cursor();
-    std::cout.flush();
-    std::system("sleep 0.5");
-    ++counter;
-  }
-  std::cout << "...done" << show_cursor() << std::endl;
-}
