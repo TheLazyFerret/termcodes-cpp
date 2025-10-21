@@ -63,13 +63,17 @@ enum class Direction {
 };
 
 inline std::string move(const Direction, const std::size_t);
-inline constexpr std::string_view move_start() noexcept;
+inline constexpr std::string_view jump_line_begin() noexcept;
 inline std::string jump(const std::size_t, const std::size_t);
-
-inline constexpr std::string_view clear_screen() noexcept;
 
 inline constexpr std::string_view hide_cursor() noexcept;
 inline constexpr std::string_view show_cursor() noexcept;
+
+}
+
+namespace termcodes::erase {
+
+inline constexpr std::string_view clear_screen() noexcept;
 
 inline constexpr std::string_view erase_line() noexcept;
 inline constexpr std::string_view erase_begin_to_cursor() noexcept;
@@ -79,7 +83,7 @@ inline constexpr std::string_view erase_end_to_cursor() noexcept;
 
 namespace termcodes::utils {
 
-/// GRAPHIC CODES
+/// GRAPHIC
 
 /// Beginning of any ANSI CodeEscape.
 constexpr std::string_view KAnsiCodeEscape = "\x1b[";
@@ -90,12 +94,10 @@ constexpr std::string_view KAnsiResetAllGraphicModes = "\x1b[22;23;24;25;27;28;2
 /// Reset all graphical options (colors and modes).
 constexpr std::string_view KAnsiResetAllGraphic = "\x1b[0m";
 
-/// GRAPHIC FUNCTIONS
-
 constexpr inline std::string_view translate_color(const graphic::Color, const bool) noexcept;
 constexpr inline std::string_view translate_graphic_mode(const graphic::Mode, const bool) noexcept;
 
-/// CURSOR CODES
+/// CURSOR
 
 /// Move the cursor to the home position (0, 0) usually in top left corner.
 constexpr std::string_view KAnsiResetCursor = "\x1b[H";
@@ -112,6 +114,10 @@ constexpr std::string_view KAnsiEnableCursor = "\x1b[?25h";
 /// makes the cursor invisible. NOT COMPATIBLE WITH ALL TERMINALS.
 constexpr std::string_view KAnsiDisableCursor = "\x1b[?25l";
 
+constexpr inline std::string_view translate_direction(const cursor::Direction) noexcept;
+
+/// ERASE
+
 /// Erase the line, from the cursor to the end.
 constexpr std::string_view KAnsiEraseLineCursorToEnd = "\x1b[0K";
 /// Erase the line, from the cursor to the begin.
@@ -123,10 +129,6 @@ constexpr std::string_view KAnsiEraseLine = "\x1b[2K";
 constexpr std::string_view KAnsiClearScreen = "\x1b[0J\x1b[1J\x1b[H";
 /// Erase line and moves cursor to start of line
 constexpr std::string_view KAnsiEraseLineAndMove = "\x1b[2K\x1b[0G";
-
-/// CURSOR FUNCTIONS
-
-constexpr inline std::string_view translate_direction(const cursor::Direction) noexcept;
 
 }
 
@@ -305,10 +307,10 @@ std::string termcodes::cursor::jump(const std::size_t n, const std::size_t m) {
   return result;
 }
 
-/// Constexpr function that return the ANSI code that first clear the screen and moves the cursor to home (0, 0).
+/// Constexpr function that return the ANSI code to move the cursor to the start of the current line.
 ///  return: std::string_view
-constexpr std::string_view termcodes::cursor::clear_screen() noexcept {
-  return utils::KAnsiClearScreen;
+constexpr std::string_view termcodes::cursor::jump_line_begin() noexcept {
+  return utils::KAnsiMoveToStart;
 }
 
 /// Constexpr function that return the ANSI code that shows the cursor. If already visible, does nothing.
@@ -325,28 +327,29 @@ constexpr std::string_view termcodes::cursor::hide_cursor() noexcept {
   return utils::KAnsiDisableCursor;
 }
 
+
+/// Constexpr function that return the ANSI code that first clear the screen and moves the cursor to home (0, 0).
+///  return: std::string_view
+constexpr std::string_view termcodes::erase::clear_screen() noexcept {
+  return utils::KAnsiClearScreen;
+}
+
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 ///  return: std::string_view
-constexpr std::string_view termcodes::cursor::erase_line() noexcept {
+constexpr std::string_view termcodes::erase::erase_line() noexcept {
   return utils::KAnsiEraseLineAndMove;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 /// from the cursor position to the begin of the line.
 ///  return: std::string_view
-constexpr std::string_view termcodes::cursor::erase_begin_to_cursor() noexcept {
+constexpr std::string_view termcodes::erase::erase_begin_to_cursor() noexcept {
   return utils::KAnsiEraseLineFromCursorToBegin;
 }
 
 /// Constexpr function that return the ANSI code to erase the line where the cursor is positioned.
 /// from the cursor position to the end of the line.
 ///  return: std::string_view
-constexpr std::string_view termcodes::cursor::erase_end_to_cursor() noexcept {
+constexpr std::string_view termcodes::erase::erase_end_to_cursor() noexcept {
   return utils::KAnsiEraseLineCursorToEnd;
-}
-
-/// Constexpr function that return the ANSI code to move the cursor to the start of the current line.
-///  return: std::string_view
-constexpr std::string_view termcodes::cursor::move_start() noexcept {
-  return utils::KAnsiMoveToStart;
 }
