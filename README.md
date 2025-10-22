@@ -24,7 +24,7 @@ Not external compilation required, just include the header in your project.
 `#include "termcodes/ansi.hpp"`
 
 ## Requirements
-- `C++ std >= 17`
+`C++ std >= 17`
 
 ## Project structure
 ```sh
