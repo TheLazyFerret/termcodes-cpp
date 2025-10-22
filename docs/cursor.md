@@ -1,5 +1,6 @@
 # termcodes - cursor
-This namespace constains all the functions that works with the cursor or the screen. Due they are quite related, I decided to not split them.
+This namespace constains all the functions that works with the cursor or the screen. 
+Due they are quite related, I decided to not split them.
 
 *When using with `std::basic_ostream`, please remember
 that this is a buffered stream. You probably want to
@@ -27,12 +28,12 @@ Move the cursor to the start of the current line (column 0).
 #### FUNCTION: `show_cursor()`
 Shows the cursor if it is hidden. In any other case, it does nothing.
 - It is marked as `constexpr`, so it can be evaluated at compile time.
-- Although it should work for most devices, it is not guaranteed to work on all of them.
+- Although it should work for most terminals, it is not guaranteed to work on all of them.
 
 #### FUNCTION: `hide_cursor()`
 Hides the cursor if it is vissible. In any other case, it does nothing.
 - It is marked as `constexpr`, so it can be evaluated at compile time.
-- Although it should work for most devices, it is not guaranteed to work on all of them.
+- Although it should work for most terminals, it is not guaranteed to work on all of them.
 
 ## Example
 You can see a complete example in [example/cursor.cpp](../example/cursor.cpp)
