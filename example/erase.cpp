@@ -47,5 +47,5 @@ void loading_dots() {
     sleep(1);
     ++counter;
   }
-  std::cout << " done" << show_cursor() << std::endl;
+  std::cout << ": done" << show_cursor() << std::endl;
 }
